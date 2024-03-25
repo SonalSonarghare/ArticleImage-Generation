@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./static/css/output.css" />
+    <title>AI Article Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      @keyframes sparkles {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.5);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .animate-sparkles {
+        animation: sparkles 1s infinite;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="bg-black">
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+          <div class="flex-shrink-0">
+            <a href="#" class="text-white font-bold">AI Article Generator</a>
+          </div>
+          <div class="hidden md:flex">
+            <a href="#" class="text-white ml-4">Home</a>
+            <a href="#" class="text-white ml-4">About</a>
+            <a href="#" class="text-white ml-4">Services</a>
+            <a href="#" class="text-white ml-4">Contact</a>
+          </div>
+          <div class="md:hidden">
+            <button type="button" class="text-white focus:outline-none">
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="hidden flex flex-col items-center">
+          <a href="#" class="text-white ml-4">Home</a>
+          <a href="#" class="text-white ml-4">About</a>
+          <a href="#" class="text-white ml-4">Services</a>
+          <a href="#" class="text-white ml-4">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mx-auto my-4 px-4 md:px-6">
+      <h1 style="font-size: 24px; font-weight: bold; color: #333">
+        AI Article Generator
+      </h1>
+      <label for="languageSelect" class="mt-4 block">Select Language:</label>
+      <select id="languageSelect" class="border my-1 p-2 w-full">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="ma">Marathi</option>
+        <option value="fr">French</option>
+        <option value="sp">Spanish</option>
+        <option value="ch">Chinese</option>
+        <!-- Add more options for different languages if needed -->
+      </select>
+    </div>
+    <div class="container mx-auto my-4 px-4 md:px-6">
+      <label for="titleInput">Article Title:</label>
+      <textarea
+        id="titleInput"
+        class="border my-1 p-2 w-full"
+        placeholder="Enter the title of your blog"
+      ></textarea>
+      <label for="headingsInput">No of Headings:</label>
+      <input
+        type="number"
+        id="headingsInput"
+        class="border my-1 p-2 w-full"
+        placeholder="Enter the number of headings"
+        min="1"
+        max="10"
+      />
+      <label for="styleSelect" class="mt-4 block">Writing Style:</label>
+      <select id="styleSelect" class="border my-1 p-2 w-full">
+        <option value="infor">Informative</option>
+        <option value="desc">Descriptive</option>
+        <option value="creat">Creative</option>
+        <option value="narrat">Narrative</option>
+        <option value="analyt">Analytical</option>
+        <option value="tech">Technical</option>
+        <!-- Add more options for different writing styles if needed -->
+      </select>
+      <label for="toneSelect" class="mt-4 block">Tone:</label>
+      <select id="toneSelect" class="border my-1 p-2 w-full">
+        <option value="formal">Formal</option>
+        <option value="informal">Informal</option>
+        <option value="neutral">Neutral</option>
+        <option value="assertive">Assertive</option>
+        <option value="cherr">Cherrful</option>
+        <option value="humor">Humorous</option>
+        <option value="inspir">Inspirational</option>
+        <!-- Add more options for different tones if needed -->
+      </select>
+
+      <div style="display: flex">
+        <button
+          id="submitBtn"
+          class="bg-black text-white px-5 py-2 my-2 rounded"
+        >
+          Submit
+        </button>
+        <div style="width: 40px"></div>
+        <!-- Added empty div for spacing -->
+        <a href="generateimg.html" target="_blank">
+          <button
+            id="generateBtn"
+            class="bg-black text-white px-5 py-2 my-2 rounded"
+          >
+            Generate Images <span class="mr-3"></span>
+            <i
+              class="fa-solid fa-wand-magic-sparkles text-white animate-sparkles"
+            ></i>
+          </button>
+        </a>
+      </div>
+
+      <div id="content" class="bg-gray-200 p-2 my-6">
+        Your content will show up here
+      </div>
+    </div>
+    <div class="container my-4 text-center">
+      <svg
+        class="d-none"
+        id="loadingGif"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        style="margin: auto; background: #fff; display: none"
+        width="200px"
+        height="200px"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="xMidYMid"
+      >
+        <g transform="rotate(0 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.9166666666666666s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(30 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.8333333333333334s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(60 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.75s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(90 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.6666666666666666s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(120 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.5833333333333334s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(150 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.5s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(180 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.4166666666666667s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(210 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.3333333333333333s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(240 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.25s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(270 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.16666666666666666s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(300 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="-0.08333333333333333s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <g transform="rotate(330 50 50)">
+          <rect
+            x="47"
+            y="24"
+            rx="3"
+            ry="6"
+            width="6"
+            height="12"
+            fill="#000000"
+          >
+            <animate
+              attributeName="opacity"
+              values="1;0"
+              keyTimes="0;1"
+              dur="1s"
+              begin="0s"
+              repeatCount="indefinite"
+            ></animate>
+          </rect>
+        </g>
+        <!-- Loading animation SVG -->
+      </svg>
+    </div>
+
+    <script>
+      const submitBtn = document.getElementById("submitBtn");
+      const loadingGif = document.getElementById("loadingGif");
+      const content = document.getElementById("content");
+
+      submitBtn.addEventListener("click", async () => {
+        loadingGif.style.display = "block"; // Show loading gif
+        const language = document.getElementById("languageSelect").value;
+        const title = document.getElementById("titleInput").value;
+        const headings = document.getElementById("headingsInput").value;
+        const style = document.getElementById("styleSelect").value;
+        const tone = document.getElementById("toneSelect").value;
+
+        const requestData = {
+          language: language,
+          title: title,
+          headings: headings,
+          style: style,
+          tone: tone,
+        };
+
+        let response = await fetch("/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        });
+        content.innerHTML = await response.text();
+        loadingGif.style.display = "none"; // Hide loading gif after content is loaded
+      });
+    </script>
+  </body>
+</html>
