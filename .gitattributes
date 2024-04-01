@@ -1,5 +1,6 @@
 *.py linguist-detectable=true
 *.js linguist-detectable=true
 templates/index.html linguist-detectable=false
+templates/generateimg.html linguist-detectable=false
 static/css/output.css linguist-detectable=false
 *.nix linguist-detectable=true
