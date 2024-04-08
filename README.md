@@ -38,6 +38,10 @@ This project is a web application that generates tailored articles using Flask, 
 6. Link to create open API key: https://platform.openai.com/api-keys
 
 
-
 ## License
 This project is licensed under the MIT License.
+
+## Video
+https://github.com/SonalSonarghare/ArticleImage-Generation/assets/116957485/c7f9dbb1-b032-4c8a-b4da-a9ff388d52e4
+
+
